@@ -1,43 +1,70 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 @import "tailwindcss";
 
-
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --color-cm-main-100: oklch(90.57% 0.1445 90.47);
+  --color-cm-main-200: oklch(92% 0.1445 90.47);
+  --color-cm-main-300: oklch(86.57% 0.1445 90.47);
+  --color-cm-main-400: oklch(78% 0.1445 90.47);
+  --color-cm-main-500: oklch(70% 0.1445 90.47);
+  --color-cm-main-600: oklch(62% 0.1445 90.47);
 
-@theme { 
-    --color-cm-main-100: oklch(90.57% 0.1445 90.47);
-    --color-cm-main-200: oklch(92% 0.1445 90.47);
-    --color-cm-main-300: oklch(86.57% 0.1445 90.47); 
-    --color-cm-main-400: oklch(78% 0.1445 90.47);
-    --color-cm-main-500: oklch(70% 0.1445 90.47);
-    --color-cm-main-600: oklch(62% 0.1445 90.47);
+  --color-cm-sub-100: oklch(93% 0.1257 259.97);
+  --color-cm-sub-200: oklch(63% 0.1257 259.97);
+  --color-cm-sub-300: oklch(51.9% 0.1257 259.97);
+  --color-cm-sub-400: oklch(45% 0.1257 259.97);
+  --color-cm-sub-500: oklch(37% 0.1257 259.97);
+  --color-cm-sub-600: oklch(30% 0.1257 259.97);
 
-    --color-cm-sub-100: oklch(93% 0.1257 259.97);
-    --color-cm-sub-200: oklch(63% 0.1257 259.97); 
-    --color-cm-sub-300: oklch(51.9% 0.1257 259.97); 
-    --color-cm-sub-400: oklch(45% 0.1257 259.97); 
-    --color-cm-sub-500: oklch(37% 0.1257 259.97); 
-    --color-cm-sub-600: oklch(30% 0.1257 259.97);
+  --color-cm-green: rgb(128, 229, 88);
+  --color-cm-green-deep: rgb(98, 201, 54);
+  --color-cm-dark: #2e2e2e;
+  --color-cm-lightdark: rgb(38, 38, 38);
+  --color-cm-icon: rgb(135, 138, 146);
+  --color-cm-textcolor: rgb(173, 181, 189);
+  --color-cm-gray: rgb(246, 246, 249);
+  --color-cm-gray-hover: #d1d1d4;
+  --color-cm-dark-chat: rgb(46, 46, 46);
+  --color-cm-light-chat: rgb(242, 242, 242);
 
-    --color-cm-green: rgb(128,229,88); 
-    --color-cm-green-deep: rgb(98, 201, 54); 
+  --font-popin: "Poppins", sans-serif;
 
-    --font-popin:"Poppins", sans-serif;
-
-    /* Breakpoints */
-    --breakpoint-cm-xmd:992px;
-    --breakpoint-cm-xlmd:1200px;
+  /* Breakpoints */
+  --breakpoint-cm-xmd: 992px;
+  --breakpoint-cm-xlmd: 1200px;
 }
 
-
-
-  
 @utility chat-heading {
-    @apply bg-gradient-to-r from-cm-main-300 to-cm-sub-500 text-2xl font-bold w-fit bg-clip-text text-transparent font-popin;
+  @apply bg-gradient-to-r from-cm-main-300 to-cm-sub-500 text-2xl font-bold w-fit bg-clip-text text-transparent font-popin;
 }
 
 @utility gradient-text {
-    @apply bg-gradient-to-r from-cm-main-300 to-cm-sub-500 w-fit bg-clip-text text-transparent inline-block;
+  @apply bg-gradient-to-r from-cm-main-300 to-cm-sub-500 w-fit bg-clip-text text-transparent inline-block;
+}
+
+@layer utilities {
+  
+  .cm-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    display: none;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .cm-scrollbar::-webkit-scrollbar-track {
+    background:transparent; 
+  }
+
+  /* Scrollbar thumb */
+  .cm-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-[#646A6F] rounded-[10px];
+  }
+
+  /* Show scrollbar when scrolling */
+  .cm-scrollbar:hover::-webkit-scrollbar,
+  .cm-scrollbar:focus-within::-webkit-scrollbar {
+    display: block;
+  }
 }

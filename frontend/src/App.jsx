@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import useThemeStore from './store/useThemeStore.js';
-import SidebarBtn from './components/SidebarBtn';
-import { Route, Routes } from 'react-router-dom';
-import Authentication from './pages/Authentication.jsx';
-import Login from './components/Login.jsx';
-import Registration from './components/Registration.jsx';
-import toast, { Toaster } from 'react-hot-toast';
+import React, { lazy, Suspense, useEffect } from "react";
+import useThemeStore from "./store/useThemeStore.js";
+import { Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import Authentication from "./pages/Authentication.jsx";
 
+
+const Login = lazy(() => import("./components/Login.jsx"));
+const Registration = lazy(() => import("./components/Registration.jsx"));
+const AppPage = lazy(()=>import("./pages/AppPage.jsx"));
 
 const App = () => {
   const { darkMode } = useThemeStore();
@@ -18,20 +19,21 @@ const App = () => {
       document.documentElement.classList.remove("dark");
       localStorage.removeItem("theme");
     }
-  }, [darkMode])
-  const notify = () => toast.success('Here is your toast.');
+  }, [darkMode]);
+
   return (
     <>
       <Routes>
-        <Route path='/' element={<Authentication />}>
+        <Route path="/" element={<Authentication />}>
           <Route index element={<Login />} />
-          <Route path='register' element={<Registration />} />
+          <Route path="register" element={<Registration />} />
         </Route>
+        <Route path="/chat" element={<AppPage/>} />
       </Routes>
-      <Toaster/>
-      {/* <SidebarBtn/> */}
+      <Toaster />
+    
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
