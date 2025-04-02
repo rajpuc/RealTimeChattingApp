@@ -5,8 +5,11 @@ import router from "./routes/api.js";
 import { connectToMongoDB } from "./src/config/db.js";
 import cookieParser from "cookie-parser";
 import { app, server } from "./src/lib/socket.js";
+import path from "path";
+
 dotenv.config();
 
+const __dirname = path.resolve();
 
 app.use(
   cors({
@@ -18,6 +21,13 @@ app.use(cookieParser());
 app.use(express.json({ limit: process.env.MAX_JSON_SIZE }));
 
 app.use("/api/v1", router);
+
+if(process.env.NODE_ENV === "production"){
+  app.use(express.static(path.join(__dirname,"../frontend/dist")));
+  app.get("*",(req,res)=>{
+    res.sendFile(path.join(__dirname,"../frontend","dist","index.html"));
+  });
+}
 
 server.listen(process.env.PORT, () => {
   connectToMongoDB();
