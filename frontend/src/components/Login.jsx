@@ -8,6 +8,7 @@ const Login = () => {
   const { isSigningIn, signin} = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -27,6 +28,7 @@ const Login = () => {
     } 
     else toast.error(response.message);
   };
+
   return (
     <div className="">
       <>

@@ -1,9 +1,10 @@
 import React from 'react'
 import useDataStore from '../store/useDataStore'
 import Chats from './chatlayout/Chats';
-import Profile from './chatlayout/Profile';
-import Groups from './chatlayout/Groups';
-import Settings from './chatlayout/Settings';
+import Groups from './grouplayout/Groups';
+import Profile from './profilelayout/Profile';
+import Settings from './settinglayout/Settings';
+
 
 const MiddleBar = () => {
   const {upperMenuItems} = useDataStore();

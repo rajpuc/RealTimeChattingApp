@@ -48,6 +48,7 @@ export const login = async (req, res) => {
       maxAge:JWT_EXPIRE_TIME * 1000 //Sets how long the cookie is valid (in milliseconds).
     }
     res.cookie("token", token, tokenOptions)
+   
 
     res.status(200).json({
       status:"success",
@@ -180,9 +181,89 @@ export const getAllUsers = async (req, res) => {
       data: allUsers,
     });
   } catch (error) {
+    console.log('Error in getAllUsers Controller: '+error.message);
     return res.status(500).json({
       status: "error",
       message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+export const checkAuth = async (req, res)=>{
+  try{
+    res.status(200).json({
+      status:"success",
+      message:"Successfully retrieved user",
+      data:req.user,
+    });
+  }catch(error){
+    console.log('Error in checkAuth Controller: '+error.message);
+    return res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+}
+export const logout = (req,res)=>{
+  try{
+    res.cookie("token","",{maxAge:0});
+    res.status(200).json({
+      status:"success",
+      message:"Successfully logout."
+    })
+  }catch(error){
+    console.log('Error in logout Controller: '+error.message);
+    return res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+}
+
+export const updateProfile = async (req, res) => {
+  try {
+
+    const userId = req.user.id; 
+    const { fullname, email, dateofbirth, profileimage } = req.body;
+
+    // Find the user by ID
+    let user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        status: "failed",
+        message: "User not found",
+      });
+    }
+
+    // Update user details
+    user.fullname = fullname || user.fullname;
+    user.dateofbirth = dateofbirth || user.dateofbirth;
+    user.email = email || user.email;
+    user.gender =  user.gender;
+    user.profileimage = profileimage || user.profileimage;
+
+    // Save the updated user
+    await user.save();
+
+    return res.status(200).json({
+      status: "success",
+      message: "Profile updated successfully",
+      data: {
+        _id: user._id,
+        fullname: user.fullname,
+        email: user.email,
+        dateofbirth: user.dateofbirth,
+        gender: user.gender,
+        profileimage: user.profileimage,
+      },
+    });
+  } catch (error) {
+    console.log("Error in Profile Update Controller: " + error.message);
+    return res.status(500).json({
+      status: "failed",
+      message: "Internal Server Error",
       error: error.message,
     });
   }

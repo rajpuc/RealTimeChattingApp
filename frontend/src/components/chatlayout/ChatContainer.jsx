@@ -33,7 +33,6 @@ const ChatContainer = () => {
     )
   }, [selectedUser._id, loggedInUser._id]);
 
-  console.log(selectedUser)
   return (
     <div className={`w-full h-full`}>
       <ChatHeader fullName={selectedUser.fullname} profileImg={selectedUser.profileimage}/>

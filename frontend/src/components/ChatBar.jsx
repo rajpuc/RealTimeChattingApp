@@ -5,9 +5,10 @@ import useChatStore from "../store/useChatStore";
 import ChatContainer from "./chatlayout/ChatContainer";
 import useDataStore from "../store/useDataStore";
 import GroupContainer from "./grouplayout/GroupContainer";
+import useAuthStore from "../store/useAuthStore";
 
 const ChatBar = () => {
-  const { selectedUser } = useChatStore();
+  const { selectedUser,selectedGroup } = useChatStore();
   const { upperMenuItems } = useDataStore();
   return (
     <div
@@ -16,7 +17,7 @@ const ChatBar = () => {
     >
       {upperMenuItems.Chats.active && selectedUser ? (
         <ChatContainer />
-      ) : upperMenuItems.Groups.active ? (
+      ) : upperMenuItems.Groups.active && selectedGroup ? (
         <GroupContainer />
       ) : (
         <ChatHome />

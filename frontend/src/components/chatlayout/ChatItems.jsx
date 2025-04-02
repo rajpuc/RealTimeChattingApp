@@ -5,7 +5,7 @@ import { images } from '../../assets/assets';
 const ChatItems = ({ profileimage,onClick, user, isOnline = false, isActive=false}) => {
   return (
     <Link  onClick={onClick} className={`w-full py-1  px-6  block`}>
-      <div className={`flex items-center  gap-2 ${isActive ? 'bg-cm-green text-white' : ''}`}>
+      <div className={`flex items-center hover:bg-cm-dark/20 hover:dark:bg-cm-gray/10  gap-2 ${isActive ? 'bg-cm-green hover:bg-cm-green-deep!  text-white' : ''}`}>
         <div className="w-8 h-8 relative rounded-full">
           <img
             src={user.profileimage ? user.profileimage : images.avatar}

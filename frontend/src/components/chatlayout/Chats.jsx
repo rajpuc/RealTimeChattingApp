@@ -8,6 +8,8 @@ import useAuthStore from "../../store/useAuthStore";
 
 const Chats = () => {
   const [scrolling, setScrolling] = useState(false);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+
   const {
     allusers,
     isAlluserFatching,
@@ -34,12 +36,29 @@ const Chats = () => {
       return toast.error(response.message);
     }
   };
+
   useEffect(() => {
     getAllFriends();
     return () => {
       setAllUsers([]);
+      setSelectedUser(null);
     };
   }, []);
+
+  const handleFilter = (e) => {
+    const value = e.target.value.trim();
+    if (!value) {
+      setFilteredUsers([]);
+      return;
+    }
+    const regex = new RegExp(value, "i");
+    setFilteredUsers(
+      allusers.filter((user) => {
+        return regex.test(user.fullname);
+      })
+    );
+  };
+
   return (
     <div className="w-full h-full">
       <div className="w-full pt-6 pl-6 pr-6">
@@ -53,6 +72,7 @@ const Chats = () => {
             type="text"
             placeholder="Search here.."
             className="w-full p-2  pl-2 outline-none text-[14px]"
+            onChange={handleFilter}
           />
           <button className="hover:bg-cm-gray-hover dark:hover:bg-cm-dark w-14 flex items-center justify-center">
             <Search className="dark:text-white" size={15} />
@@ -71,7 +91,19 @@ const Chats = () => {
         ) : allusers.length === 0 ? (
           <h1>No user Found</h1>
         ) : (
-          allusers.map((item) => (
+          filteredUsers.length > 0 ? filteredUsers.map((item) => (
+            <ChatItems
+              key={item._id}
+              user={item}
+              onClick={(e) => {
+                e.preventDefault();
+                setSelectedUser(item);
+                setIsChatActive(true);
+              }}
+              isOnline={onlineUsers.includes(item._id)}
+              isActive={item._id === selectedUser?._id}
+            />
+          )) : allusers.map((item) => (
             <ChatItems
               key={item._id}
               user={item}

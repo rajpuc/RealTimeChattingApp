@@ -18,10 +18,25 @@ export const getOnlineUserSocketId = ( userId ) => onlineUsers[userId];
 
 io.on("connection",(socket)=>{
     console.log("A user connected", socket.id);
+
     const userId = socket.handshake.query.userId;
     if(userId) onlineUsers[userId] = socket.id;
-    console.log(onlineUsers);
     io.emit("getOnlineUsers", Object.keys(onlineUsers));
+
+    socket.on("joinGroups",({groupIds}) => {
+        console.log(groupIds);
+        if (!groupIds || groupIds.length === 0) return;
+        groupIds.forEach((groupId) => {
+            socket.join(groupId._id);
+            console.log(`User ${userId} joined group ${groupId._id}`);
+        });
+    });
+
+    socket.on("leaveGroup",({groupId})=>{
+        socket.leave(groupId);
+        console.log(`User ${userId} left group ${groupId}`);    
+    });
+
     socket.on("disconnect",()=>{
         console.log("A user disconnected",socket.id);
         delete onlineUsers[userId];

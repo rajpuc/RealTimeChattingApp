@@ -77,9 +77,10 @@ export const createChatRoom = async (req, res) => {
 export const createMessageForChat = async (req, res) => {
     try {
         const { sender, context, files, chat } = req.body;
-
+        console.log("----------------------------------------------\n"+"Sender:"+sender+"\nReq user:"+req.user._id.toString());
         // Validate Sender (Must Be the Authenticated User)
         if (sender !== req.user._id.toString()) {
+            console.log("Sender:"+sender+"\nReq user:"+req.user._id.toString());
             return res.status(403).json({
                 status: "failed",
                 message: "Unauthorized request.",
@@ -119,13 +120,12 @@ export const createMessageForChat = async (req, res) => {
         isExistChat.latestMessage = createdMessage._id; 
         await isExistChat.save();
 
-        console.log("Users of a chat",isExistChat.users);
+  
         const reciever = isExistChat.users.filter((item) => item.toString() !== sender);
-        console.log("ddddddddddddddddddd",reciever,sender);
+        
         const socketId = getOnlineUserSocketId(reciever[0].toString());
-        console.log(createdMessage.context);
+        
         if(socketId){
-            console.log(socketId);
             io.to(socketId).emit("newMessage",createdMessage);
         }
 

@@ -45,6 +45,10 @@
   @apply bg-gradient-to-r from-cm-main-300 to-cm-sub-500 w-fit bg-clip-text text-transparent inline-block;
 }
 
+@utility cm-gradient {
+  @apply bg-gradient-to-r from-cm-main-300 to-cm-sub-500;
+}
+
 @layer utilities {
   
   .cm-scrollbar::-webkit-scrollbar {
