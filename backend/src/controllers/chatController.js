@@ -49,7 +49,7 @@ export const createChatRoom = async (req, res) => {
         if (existingChat) {
             return res.status(201).json({
                 status: "success",
-                message: "Chat room created retrived.",
+                message: "Chat room retrived.",
                 data: existingChat,
             });
         }
